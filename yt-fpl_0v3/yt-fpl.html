@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Custom Playlist</title>
+</head>
+<body>
+	<div id="video-player"></div>
+	<p id="title"></p>
+	<a href="/done">Done</a>
+	<a id="prev" href="">Prev</a>
+	<a id="next" href="">Next</a>	
+
+    <script type="text/javascript">
+		window.onload = function() {
+			var a = document.getElementById("prev");
+			a.onclick = function() {
+				PlayPrevVid();
+				return false;
+			}
+			var b = document.getElementById("next");
+			b.onclick = function() {
+				PlayNextVid();
+				return false;
+			}
+		}
+    </script>	
+
+
+	<script type="text/javascript">
+		
+		const xmlHttp = new XMLHttpRequest();
+		var playVidId = '';
+
+		function GetVidId(ReqVidId){
+			xmlHttp.open("GET", ReqVidId, false);
+			xmlHttp.send(null);
+			if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+				return xmlHttp.responseText.toString();
+			}
+			return '';
+		}
+		
+		function GetNextVidId(){
+			return GetVidId("/nextVidId");
+		}
+		
+		function GetPrevVidId(){
+			return GetVidId("/prevVidId");
+		}		
+		
+		function PlayNextVid(){
+			playVidId = GetNextVidId();
+			ytplayer.loadVideoById({
+				videoId: playVidId,
+			});			
+		}
+		
+		function PlayPrevVid(){
+			playVidId = GetPrevVidId();
+			ytplayer.loadVideoById({
+				videoId: playVidId,
+			});			
+		}		
+		
+		var playVidId = GetNextVidId();
+		
+		//document.getElementById("testout").innerHTML = playVidId;		
+		var tag = document.createElement('script');
+		tag.id = 'iframe-ytplayer';
+		tag.src = 'https://www.youtube.com/iframe_api';
+		var firstScriptTag = document.getElementsByTagName('script')[0];
+		firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+		var ytplayer;
+		
+		function onYouTubeIframeAPIReady() {
+			ytplayer = new YT.Player('video-player', {
+				height: '360',
+				width: '640',
+				videoId: playVidId,
+				//playerVars: { 'autoplay': 1, 'controls': 0 },
+				events: {
+					'onReady': onPlayerReady,
+					'onStateChange': onPlayerStateChange,
+					'onError': onPlayerError
+				}				
+			});
+		}
+		
+		function onPlayerReady(event) {
+			document.getElementById("title").innerText = ytplayer.getVideoData().title;
+			//event.target.mute();
+			event.target.playVideo();
+		}
+		
+		function onPlayerStateChange(event) {
+			if(event.data == YT.PlayerState.PLAYING) {
+				document.getElementById("title").innerText = ytplayer.getVideoData().title;
+				//event.target.setVolume(100);
+				//event.target.unMute();
+			}
+			if(event.data == YT.PlayerState.ENDED) {
+				PlayNextVid();
+			}
+		}
+		
+		function onPlayerError(event) {
+			PlayNextVid();
+		}	
+	
+	</script>
+</body>
+</html>
