@@ -89,9 +89,10 @@ var server = http.createServer(function (req, res) {
 		server.close();	
 	}	
 	else {
-		res.writeHead(200, {'Content-Type': 'text/html'});   
-		res.end('Invalid Request!');
-		return server.close();
+		res.writeHead(404, {'Content-Type': 'text/html'});   
+		res.write('Invalide request.');
+		res.end();
+		//return server.close();
 	}
 });
 
