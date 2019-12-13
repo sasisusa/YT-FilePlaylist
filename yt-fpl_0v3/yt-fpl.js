@@ -37,14 +37,12 @@ function YouTubeGetID(url){
 var RAW_myVideoIds = fs.readFileSync(VidIdFile, 'utf-8').split('\n').filter(Boolean);
 console.log(RAW_myVideoIds);
 
-var myVideoIds = []
-for(var i=0, j=0, len=RAW_myVideoIds.length; i<len; i++) {
-	RAW_myVideoIds[i] = RAW_myVideoIds[i].replace(/\s/g,'');
-	if(RAW_myVideoIds[i].charAt(0) !== '#'){
-		myVideoIds[j] = YouTubeGetID(RAW_myVideoIds[i]).substring(0, 11);
-		++j;
-	}
-}
+myVideoIds = RAW_myVideoIds
+		.map(item => item.trim())
+		.filter(item => item.charAt(0) !== '#')
+		.map(item => YouTubeGetID(item).substring(0, 11))
+		.filter(item => item.length == 11 && /([A-Za-z0-9_\-]{11})/.test(item));
+
 console.log(myVideoIds);
 
 var vidIndex = -1;
