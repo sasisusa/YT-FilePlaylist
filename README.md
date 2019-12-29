@@ -14,3 +14,6 @@ Poor something to play a own created playlist from a file.
 
 ## Application description
 Not needed.
+
+### Bad style
+Don't care about the mashup with " " and ' ' for now.
