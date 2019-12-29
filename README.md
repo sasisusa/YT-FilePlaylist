@@ -9,7 +9,7 @@ Poor something to play a own created playlist from a file.
 	if there is an error or problem with the opn-module, or should they not be found: 
 	`$ npm install opn` or global shared `$ npm install -g opn`
   
-## To run
+## Run
 `$ node yt-fpl.js`
 
 ## Application description
