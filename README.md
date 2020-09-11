@@ -1,10 +1,10 @@
 # YT-FilePlaylist
 
-Poor something to play a own created playlist from a file.
+Something to play a own created playlist from a file.
 
 ## Needed
-* Web browser
 * node.js
+* Web browser
 
 	if there is an error or problem with the opn-module, or should they not be found: 
 	`$ npm install opn` or global shared `$ npm install -g opn`
@@ -16,4 +16,4 @@ Poor something to play a own created playlist from a file.
 Not needed.
 
 ### Bad style
-Don't care about the mashup with " " and ' ' for now.
+The mashup with " " and ' ' (for now).
